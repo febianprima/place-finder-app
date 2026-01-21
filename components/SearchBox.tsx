@@ -89,7 +89,7 @@ export const SearchBox: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl">
+    <div className="w-full">
       <div className="mb-3 flex items-center gap-2">
         {usingMockData && (
           <Tag color="orange">Using Mock Data</Tag>
@@ -101,7 +101,6 @@ export const SearchBox: React.FC = () => {
         onSearch={handleSearch}
         onSelect={handleSelect}
         className="w-full"
-        size="large"
       >
         <Input
           size="large"
