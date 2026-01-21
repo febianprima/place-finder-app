@@ -20,7 +20,7 @@ const MapCardComponent = () => {
       className="h-full"
     >
       <Text type="secondary" className="text-base">
-        Search for any location using Google Places API with intelligent autocomplete
+        Search for any location
       </Text>
       <SearchBox />
       <Divider />

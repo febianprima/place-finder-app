@@ -1,11 +1,9 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
-import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
+import React from 'react';
+import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
 import { Card, Spin, Alert } from 'antd';
-import { useSelector } from 'react-redux';
-import { Place } from '@/types/place';
-import type { RootState } from '@/store';
+import { useMap } from '@/hooks';
 
 const containerStyle = {
   width: '100%',
@@ -13,35 +11,19 @@ const containerStyle = {
   borderRadius: '8px',
 };
 
-const defaultCenter = {
-  lat: 3.1488,
-  lng: 101.7140, // Maybank Tower, Kuala Lumpur
-};
-
-// Must be outside component to avoid re-renders
-const libraries: ('places')[] = ['places'];
-
 export const Map: React.FC = () => {
-  const { currentPlace, isLoading, error } = useSelector((state: RootState) => state.places);
-  const [selectedMarker, setSelectedMarker] = useState<Place | null>(null);
-  
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
-  const hasApiKey = apiKey && apiKey.length > 0;
-
-  const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: apiKey,
-    libraries,
-  });
-
-  const center = currentPlace?.location || defaultCenter;
-
-  const onMarkerClick = useCallback((place: Place) => {
-    setSelectedMarker(place);
-  }, []);
-
-  const onInfoWindowClose = useCallback(() => {
-    setSelectedMarker(null);
-  }, []);
+  const {
+    currentPlace,
+    isLoading,
+    error,
+    selectedMarker,
+    hasApiKey,
+    isLoaded,
+    loadError,
+    center,
+    onMarkerClick,
+    onInfoWindowClose,
+  } = useMap();
 
   if (loadError) {
     return (
@@ -103,7 +85,7 @@ export const Map: React.FC = () => {
       
       {error && (
         <Alert
-          message="Search Error"
+          title="Search Error"
           description={error}
           type="error"
           closable

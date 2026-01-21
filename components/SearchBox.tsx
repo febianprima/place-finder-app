@@ -32,7 +32,7 @@ export const SearchBox: React.FC = () => {
   }));
 
   return (
-    <div className="w-full">
+    <div className="w-full mt-2">
       <AutoComplete
         value={searchValue}
         options={formattedOptions}
@@ -44,7 +44,7 @@ export const SearchBox: React.FC = () => {
       >
         <Input
           size="large"
-          placeholder="Search for a place eg. Maybank Tower Kuala Lumpur"
+          placeholder="eg. Maybank Tower Kuala Lumpur"
           prefix={<SearchOutlined />}
           onPressEnter={handlePressEnter}
           disabled={isLoading}
