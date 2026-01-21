@@ -1,9 +1,24 @@
+import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from '@/store';
 
-export const currentPlaceSelector = (state: RootState) => state.places.currentPlace;
+const placesSelector = (state: RootState) => state.places;
 
-export const isLoadingSelector = (state: RootState) => state.places.isLoading;
+export const currentPlaceSelector = createSelector(
+  placesSelector,
+  (state) => state.currentPlace,
+);
 
-export const errorSelector = (state: RootState) => state.places.error;
+export const isLoadingSelector = createSelector(
+  placesSelector,
+  (state) => state.isLoading,
+);
 
-export const searchHistorySelector = (state: RootState) => state.places.searchHistory;
+export const errorSelector = createSelector(
+  placesSelector,
+  (state) => state.error,
+);
+
+export const searchHistorySelector = createSelector(
+  placesSelector,
+  (state) => state.searchHistory,
+);
