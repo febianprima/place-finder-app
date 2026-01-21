@@ -1,11 +1,12 @@
 'use client';
 
+import React from 'react';
 import { Layout, Typography } from 'antd';
 
 const { Footer: AntFooter } = Layout;
 const { Text } = Typography;
 
-export const Footer = () => {
+const FooterComponent = () => {
   return (
     <AntFooter className="text-center bg-gray-900 text-white">
       <Text className="text-white">
@@ -14,3 +15,5 @@ export const Footer = () => {
     </AntFooter>
   );
 };
+
+export const Footer = React.memo(FooterComponent);
