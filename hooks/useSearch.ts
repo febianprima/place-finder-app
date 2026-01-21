@@ -30,7 +30,7 @@ export const useSearch = () => {
       try {
         const predictions = await getAutocompletePredictions(value);
         const autoCompleteOptions: AutocompleteOption[] = predictions.map((place) => ({
-          value: place.name,
+          value: place.id, // Use unique place.id as value to avoid duplicate keys
           label: place.name, // Just the name, the component will format it
           place,
         }));
@@ -49,7 +49,7 @@ export const useSearch = () => {
   };
 
   const handleSelect = async (value: string, option: AutocompleteOption) => {
-    setSearchValue(value);
+    setSearchValue(option.place.name); // Set the place name, not the ID
     trackPlaceSelection(option.place.name, 'autocomplete');
     
     // If the place has a valid location (not 0,0), use it directly
