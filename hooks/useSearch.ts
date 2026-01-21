@@ -6,7 +6,7 @@ import { Place } from '@/types/place';
 import { debounce } from '@/utils/debounce';
 import type { RootState, AppDispatch } from '@/store';
 
-export interface AutocompleteOption {
+interface AutocompleteOption {
   value: string;
   label: React.ReactNode;
   place: Place;

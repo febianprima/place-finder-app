@@ -1,9 +1,9 @@
-export interface TechStackCard {
+interface TechStackCard {
   title: string;
   technologies: string[];
 }
 
-export const TECH_STACK_CONFIG: TechStackCard[] = [
+export const TECH_STACK_CONFIG: readonly TechStackCard[] = [
   {
     title: 'Frontend',
     technologies: ['Next.js 16', 'TypeScript'],

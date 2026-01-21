@@ -16,7 +16,7 @@ export const useMap = () => {
   const { currentPlace, isLoading, error } = useSelector((state: RootState) => state.places);
   const [selectedMarker, setSelectedMarker] = useState<Place | null>(null);
   
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
   const hasApiKey = apiKey && apiKey.length > 0;
 
   const { isLoaded, loadError } = useJsApiLoader({
@@ -24,7 +24,7 @@ export const useMap = () => {
     libraries,
   });
 
-  const center = currentPlace?.location || defaultCenter;
+  const center = currentPlace?.location ?? defaultCenter;
 
   const onMarkerClick = useCallback((place: Place) => {
     setSelectedMarker(place);

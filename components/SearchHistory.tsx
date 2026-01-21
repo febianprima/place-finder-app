@@ -9,6 +9,7 @@ import {
   ClearOutlined,
 } from '@ant-design/icons';
 import { useSearchHistory } from '@/hooks';
+import { formatTimestamp } from '@/utils';
 
 const { Text, Paragraph } = Typography;
 
@@ -18,7 +19,6 @@ export const SearchHistory: React.FC = () => {
     handleSelectPlace,
     handleRemove,
     handleClearAll,
-    formatTimestamp,
   } = useSearchHistory();
 
   return (
