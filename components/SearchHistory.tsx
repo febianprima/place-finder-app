@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Card, List, Button, Empty, Typography, Tag, Space } from 'antd';
+import { Card, Button, Empty, Typography, Tag, Space } from 'antd';
 import {
   DeleteOutlined,
   EnvironmentOutlined,
@@ -53,48 +53,39 @@ export const SearchHistory: React.FC = () => {
           description="No search history yet"
         />
       ) : (
-        <List
-          dataSource={searchHistory}
-          renderItem={(item) => (
-            <List.Item
+        <div className="space-y-2">
+          {searchHistory.map((item) => (
+            <div
               key={item.id}
               onClick={() => handleSelectPlace(item)}
-              className="cursor-pointer transition-colors p-3 rounded hover:bg-gray-100"
-              actions={[
-                <Button
-                  key="delete"
-                  type="text"
-                  size="small"
-                  danger
-                  icon={<DeleteOutlined />}
-                  onClick={(e) => handleRemove(item.id, e)}
-                />,
-              ]}
+              className="flex items-start justify-between gap-3 p-3 rounded cursor-pointer transition-colors hover:bg-gray-100 border-b border-gray-100 last:border-b-0"
             >
-              <List.Item.Meta
-                avatar={<EnvironmentOutlined className="text-xl text-blue-500" />}
-                title={
-                  <div className="flex flex-col w-full">
-                    <Text strong>{item.place.name}</Text>
-                    <Text type="secondary" className="text-xs">
-                      {item.query}
-                    </Text>
-                  </div>
-                }
-                description={
-                  <div className="flex flex-col">
-                    <Text type="secondary" className="text-xs">
-                      {item.place.formattedAddress}
-                    </Text>
-                    <Text type="secondary" className="text-[11px]">
-                      {formatTimestamp(item.timestamp)}
-                    </Text>
-                  </div>
-                }
+              <div className="flex items-start gap-3 flex-1 min-w-0">
+                <EnvironmentOutlined className="text-xl text-blue-500 mt-1 flex-shrink-0" />
+                <div className="flex flex-col flex-1 min-w-0">
+                  <Text strong className="block">{item.place.name}</Text>
+                  <Text type="secondary" className="text-xs block">
+                    {item.query}
+                  </Text>
+                  <Text type="secondary" className="text-xs block mt-1">
+                    {item.place.formattedAddress}
+                  </Text>
+                  <Text type="secondary" className="text-[11px] block mt-1">
+                    {formatTimestamp(item.timestamp)}
+                  </Text>
+                </div>
+              </div>
+              <Button
+                type="text"
+                size="small"
+                danger
+                icon={<DeleteOutlined />}
+                onClick={(e) => handleRemove(item.id, e)}
+                className="flex-shrink-0"
               />
-            </List.Item>
-          )}
-        />
+            </div>
+          ))}
+        </div>
       )}
     </Card>
   );
