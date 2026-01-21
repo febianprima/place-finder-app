@@ -98,9 +98,11 @@ export const SearchBox: React.FC = () => {
       <AutoComplete
         value={searchValue}
         options={options}
-        onSearch={handleSearch}
         onSelect={handleSelect}
         className="w-full"
+        showSearch={{
+          onSearch: handleSearch,
+        }}
       >
         <Input
           size="large"
