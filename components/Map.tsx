@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
 import { Card, Spin, Alert } from 'antd';
 import { useMap } from '@/hooks';
@@ -25,22 +25,19 @@ export const Map: React.FC = () => {
     onInfoWindowClose,
   } = useMap();
 
-  // Memoize static error state component
-  const loadErrorComponent = useMemo(
-    () => (
+  if (loadError) {
+    return (
       <Alert
         message="Map Loading Error"
         description="Failed to load Google Maps. Please check your API key."
         type="error"
         showIcon
       />
-    ),
-    []
-  );
+    );
+  }
 
-  // Memoize static no API key component
-  const noApiKeyComponent = useMemo(
-    () => (
+  if (!hasApiKey) {
+    return (
       <Card className="h-[200px] flex items-center justify-center bg-gray-100">
         <div className="text-center p-5">
           <Alert
@@ -59,30 +56,15 @@ export const Map: React.FC = () => {
           />
         </div>
       </Card>
-    ),
-    []
-  );
-
-  // Memoize static loading component
-  const loadingComponent = useMemo(
-    () => (
-      <Card className="h-[500px] flex items-center justify-center">
-        <Spin size="large" tip="Loading map..." />
-      </Card>
-    ),
-    []
-  );
-
-  if (loadError) {
-    return loadErrorComponent;
-  }
-
-  if (!hasApiKey) {
-    return noApiKeyComponent;
+    );
   }
 
   if (!isLoaded) {
-    return loadingComponent;
+    return (
+      <Card className="h-[500px] flex items-center justify-center">
+        <Spin size="large" tip="Loading map..." />
+      </Card>
+    );
   }
 
   return (
