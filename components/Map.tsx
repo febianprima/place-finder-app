@@ -3,8 +3,9 @@
 import React, { useCallback, useState } from 'react';
 import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
 import { Card, Spin, Alert } from 'antd';
-import { useAppSelector } from '@/store/hooks';
+import { useSelector } from 'react-redux';
 import { Place } from '@/types/place';
+import type { RootState } from '@/store';
 
 const containerStyle = {
   width: '100%',
@@ -21,7 +22,7 @@ const defaultCenter = {
 const libraries: ('places')[] = ['places'];
 
 export const Map: React.FC = () => {
-  const { currentPlace, isLoading, error } = useAppSelector((state) => state.places);
+  const { currentPlace, isLoading, error } = useSelector((state: RootState) => state.places);
   const [selectedMarker, setSelectedMarker] = useState<Place | null>(null);
   
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';

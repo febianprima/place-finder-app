@@ -3,11 +3,12 @@
 import React, { useState, useCallback } from 'react';
 import { AutoComplete, Input, Tag } from 'antd';
 import { SearchOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useDispatch, useSelector } from 'react-redux';
 import { searchPlace } from '@/store/slices/placesSlice';
 import { getAutocompletePredictions, isUsingMockData } from '@/services/placesService';
 import { Place } from '@/types/place';
 import { debounce } from '@/utils/debounce';
+import type { RootState, AppDispatch } from '@/store';
 
 interface AutocompleteOption {
   value: string;
@@ -16,8 +17,8 @@ interface AutocompleteOption {
 }
 
 export const SearchBox: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const { isLoading } = useAppSelector((state) => state.places);
+  const dispatch = useDispatch<AppDispatch>();
+  const { isLoading } = useSelector((state: RootState) => state.places);
   const [options, setOptions] = useState<AutocompleteOption[]>([]);
   const [searchValue, setSearchValue] = useState('');
   const usingMockData = isUsingMockData();

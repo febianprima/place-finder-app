@@ -8,19 +8,20 @@ import {
   ClockCircleOutlined,
   ClearOutlined,
 } from '@ant-design/icons';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   removeFromHistory,
   clearHistory,
   setCurrentPlace,
 } from '@/store/slices/placesSlice';
 import { SearchHistoryItem } from '@/types/place';
+import type { RootState, AppDispatch } from '@/store';
 
 const { Text, Title } = Typography;
 
 export const SearchHistory: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const { searchHistory } = useAppSelector((state) => state.places);
+  const dispatch = useDispatch<AppDispatch>();
+  const { searchHistory } = useSelector((state: RootState) => state.places);
 
   const handleSelectPlace = (item: SearchHistoryItem) => {
     dispatch(setCurrentPlace(item.place));
