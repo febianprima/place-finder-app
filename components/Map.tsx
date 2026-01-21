@@ -62,7 +62,9 @@ export const Map: React.FC = () => {
   if (!isLoaded) {
     return (
       <Card className="h-[500px] flex items-center justify-center">
-        <Spin size="large" tip="Loading map..." />
+        <Spin size="large" tip="Loading map...">
+          <div className="h-[400px]" />
+        </Spin>
       </Card>
     );
   }
@@ -71,7 +73,9 @@ export const Map: React.FC = () => {
     <div className="relative">
       {isLoading && (
         <div className="absolute inset-0 bg-white/80 flex items-center justify-center z-[1000] rounded-lg">
-          <Spin size="large" tip="Searching..." />
+          <Spin size="large" tip="Searching...">
+            <div className="h-[400px]" />
+          </Spin>
         </div>
       )}
       
