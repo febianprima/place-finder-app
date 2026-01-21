@@ -4,12 +4,13 @@ import {
   clearHistory,
   setCurrentPlace,
 } from '@/store/slices/placesSlice';
+import { searchHistorySelector } from '@/store/selectors';
 import { SearchHistoryItem } from '@/types/place';
-import type { RootState, AppDispatch } from '@/store';
+import type { AppDispatch } from '@/store';
 
 export const useSearchHistory = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { searchHistory } = useSelector((state: RootState) => state.places);
+  const searchHistory = useSelector(searchHistorySelector);
 
   const handleSelectPlace = (item: SearchHistoryItem) => {
     dispatch(setCurrentPlace(item.place));

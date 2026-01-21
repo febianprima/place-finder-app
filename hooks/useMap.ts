@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { useSelector } from 'react-redux';
+import { currentPlaceSelector, isLoadingSelector, errorSelector } from '@/store/selectors';
 import { Place } from '@/types/place';
-import type { RootState } from '@/store';
 
 const defaultCenter = {
   lat: 3.1488,
@@ -13,7 +13,9 @@ const defaultCenter = {
 const libraries: ('places')[] = ['places'];
 
 export const useMap = () => {
-  const { currentPlace, isLoading, error } = useSelector((state: RootState) => state.places);
+  const currentPlace = useSelector(currentPlaceSelector);
+  const isLoading = useSelector(isLoadingSelector);
+  const error = useSelector(errorSelector);
   const [selectedMarker, setSelectedMarker] = useState<Place | null>(null);
   
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? '';

@@ -1,10 +1,11 @@
 import { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchPlace, setCurrentPlaceWithHistory } from '@/store/slices/placesSlice';
+import { isLoadingSelector } from '@/store/selectors';
 import { getAutocompletePredictions, getPlaceDetails } from '@/services';
 import { Place } from '@/types/place';
 import { debounce } from '@/utils/debounce';
-import type { RootState, AppDispatch } from '@/store';
+import type { AppDispatch } from '@/store';
 
 interface AutocompleteOption {
   value: string;
@@ -14,7 +15,7 @@ interface AutocompleteOption {
 
 export const useSearch = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading } = useSelector((state: RootState) => state.places);
+  const isLoading = useSelector(isLoadingSelector);
   const [options, setOptions] = useState<AutocompleteOption[]>([]);
   const [searchValue, setSearchValue] = useState('');
 
