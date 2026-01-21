@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useMemo } from 'react';
 import { AutoComplete, Input, Tag } from 'antd';
 import { SearchOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,8 +24,8 @@ export const SearchBox: React.FC = () => {
   const usingMockData = isUsingMockData();
 
   // Debounced autocomplete search
-  const debouncedSearch = useCallback(
-    debounce(async (value: string) => {
+  const debouncedSearch = useMemo(
+    () => debounce(async (value: string) => {
       if (!value || value.trim().length < 2) {
         setOptions([]);
         return;
