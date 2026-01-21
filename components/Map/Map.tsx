@@ -17,6 +17,9 @@ const defaultCenter = {
   lng: -74.0060, // New York City
 };
 
+// Must be outside component to avoid re-renders
+const libraries: ('places')[] = ['places'];
+
 const Map: React.FC = () => {
   const { currentPlace, isLoading, error } = useAppSelector((state) => state.places);
   const [selectedMarker, setSelectedMarker] = useState<Place | null>(null);
@@ -26,6 +29,7 @@ const Map: React.FC = () => {
 
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: apiKey,
+    libraries,
   });
 
   const center = currentPlace?.location || defaultCenter;

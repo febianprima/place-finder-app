@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { AutoComplete, Input, Tag } from 'antd';
 import { SearchOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -61,9 +61,24 @@ const SearchBox: React.FC = () => {
     debouncedSearch(value);
   };
 
-  const handleSelect = (value: string, option: AutocompleteOption) => {
+  const handleSelect = async (value: string, option: AutocompleteOption) => {
     setSearchValue(value);
-    dispatch(searchPlace(option.place.formattedAddress || value));
+    
+    // If the place has a valid location (not 0,0), use it directly
+    if (option.place.location.lat !== 0 || option.place.location.lng !== 0) {
+      dispatch(searchPlace(option.place.formattedAddress || value));
+    } else if (option.place.placeId) {
+      // Otherwise, get place details first
+      const { getPlaceDetails } = await import('@/services/placesService');
+      const placeDetails = await getPlaceDetails(option.place.placeId);
+      if (placeDetails) {
+        dispatch(searchPlace(placeDetails.formattedAddress));
+      } else {
+        dispatch(searchPlace(option.place.formattedAddress || value));
+      }
+    } else {
+      dispatch(searchPlace(option.place.formattedAddress || value));
+    }
   };
 
   const handlePressEnter = () => {
