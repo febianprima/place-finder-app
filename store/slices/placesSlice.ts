@@ -38,6 +38,20 @@ const placesSlice = createSlice({
     setCurrentPlace: (state, action: PayloadAction<Place>) => {
       state.currentPlace = action.payload;
     },
+    setCurrentPlaceWithHistory: (state, action: PayloadAction<{ place: Place; query: string }>) => {
+      state.currentPlace = action.payload.place;
+      
+      // Add to search history
+      const historyItem: SearchHistoryItem = {
+        id: `${Date.now()}-${Math.random()}`,
+        query: action.payload.query,
+        place: action.payload.place,
+        timestamp: Date.now(),
+      };
+      
+      // Add to beginning and limit to 20 items
+      state.searchHistory = [historyItem, ...state.searchHistory].slice(0, 20);
+    },
     clearCurrentPlace: (state) => {
       state.currentPlace = null;
     },
@@ -83,6 +97,7 @@ const placesSlice = createSlice({
 
 export const {
   setCurrentPlace,
+  setCurrentPlaceWithHistory,
   clearCurrentPlace,
   removeFromHistory,
   clearHistory,

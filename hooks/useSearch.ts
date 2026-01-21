@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchPlace } from '@/store/slices/placesSlice';
+import { searchPlace, setCurrentPlaceWithHistory } from '@/store/slices/placesSlice';
 import { getAutocompletePredictions } from '@/services/placesService';
 import { Place } from '@/types/place';
 import { debounce } from '@/utils/debounce';
@@ -52,17 +52,25 @@ export const useSearch = () => {
     
     // If the place has a valid location (not 0,0), use it directly
     if (option.place.location.lat !== 0 || option.place.location.lng !== 0) {
-      dispatch(searchPlace(option.place.formattedAddress || value));
+      dispatch(setCurrentPlaceWithHistory({ 
+        place: option.place, 
+        query: value 
+      }));
     } else if (option.place.placeId) {
-      // Otherwise, get place details first
+      // Otherwise, get place details first to get coordinates
       const { getPlaceDetails } = await import('@/services/placesService');
       const placeDetails = await getPlaceDetails(option.place.placeId);
       if (placeDetails) {
-        dispatch(searchPlace(placeDetails.formattedAddress));
+        dispatch(setCurrentPlaceWithHistory({ 
+          place: placeDetails, 
+          query: value 
+        }));
       } else {
+        // Fallback to text search if place details fail
         dispatch(searchPlace(option.place.formattedAddress || value));
       }
     } else {
+      // Fallback to text search if no place_id
       dispatch(searchPlace(option.place.formattedAddress || value));
     }
   };
