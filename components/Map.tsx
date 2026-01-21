@@ -14,8 +14,8 @@ const containerStyle = {
 };
 
 const defaultCenter = {
-  lat: 40.7128,
-  lng: -74.0060, // New York City
+  lat: 3.1488,
+  lng: 101.7140, // Maybank Tower, Kuala Lumpur
 };
 
 // Must be outside component to avoid re-renders
