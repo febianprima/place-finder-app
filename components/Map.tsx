@@ -4,10 +4,11 @@ import React from 'react';
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
 import { Spin, Alert, Skeleton } from 'antd';
 import { useMap } from '@/hooks';
+import { APP_CONFIG } from '@/constants';
 
 const containerStyle = {
   width: '100%',
-  height: '500px',
+  height: APP_CONFIG.MAP_HEIGHT,
   borderRadius: '8px',
 };
 
@@ -62,7 +63,7 @@ export const Map: React.FC = () => {
   if (!isLoaded) {
     return (
       <div className="space-y-4">
-        <Skeleton.Input active block style={{ height: '500px' }} />
+        <Skeleton.Input active block style={{ height: APP_CONFIG.MAP_HEIGHT }} />
       </div>
     );
   }
@@ -90,7 +91,7 @@ export const Map: React.FC = () => {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={currentPlace ? 14 : 11}
+        zoom={currentPlace ? APP_CONFIG.DEFAULT_MAP_ZOOM : APP_CONFIG.DEFAULT_MAP_ZOOM_NO_PLACE}
         options={{
           streetViewControl: false,
           mapTypeControl: true,

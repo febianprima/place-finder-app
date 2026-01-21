@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { searchPlace } from './placesActions';
-import { PLACES_INITIAL_STATE } from '@/constants';
+import { PLACES_INITIAL_STATE, APP_CONFIG } from '@/constants';
+import { createHistoryItem } from '@/utils';
 
 const placesSlice = createSlice({
   name: 'places',
@@ -13,15 +14,10 @@ const placesSlice = createSlice({
       state.currentPlace = action.payload.place;
       
       // Add to search history
-      const historyItem: SearchHistoryItem = {
-        id: `${Date.now()}-${Math.random()}`,
-        query: action.payload.query,
-        place: action.payload.place,
-        timestamp: Date.now(),
-      };
+      const historyItem = createHistoryItem(action.payload.place, action.payload.query);
       
-      // Add to beginning and limit to 20 items
-      state.searchHistory = [historyItem, ...state.searchHistory].slice(0, 20);
+      // Add to beginning and limit to configured max
+      state.searchHistory = [historyItem, ...state.searchHistory].slice(0, APP_CONFIG.SEARCH_HISTORY_LIMIT);
     },
     clearCurrentPlace: (state) => {
       state.currentPlace = null;
@@ -49,16 +45,11 @@ const placesSlice = createSlice({
       state.currentPlace = action.payload.place;
       
       // Add to search history
-      const historyItem: SearchHistoryItem = {
-          id: `${Date.now()}-${Math.random()}`,
-          query: action.payload.query,
-          place: action.payload.place,
-          timestamp: Date.now(),
-        };
+      const historyItem = createHistoryItem(action.payload.place, action.payload.query);
         
-        // Add to beginning and limit to 20 items
-        state.searchHistory = [historyItem, ...state.searchHistory].slice(0, 20);
-      })
+      // Add to beginning and limit to configured max
+      state.searchHistory = [historyItem, ...state.searchHistory].slice(0, APP_CONFIG.SEARCH_HISTORY_LIMIT);
+    })
       .addCase(searchPlace.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;

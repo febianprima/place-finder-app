@@ -1,3 +1,6 @@
+import { APP_CONFIG } from '@/constants';
+import { logError } from '@/utils';
+
 /**
  * Get place details by place ID
  */
@@ -13,7 +16,7 @@ export const getPlaceDetails = async (placeId: string): Promise<Place | null> =>
     
     return new Promise((resolve) => {
       service.getDetails(
-        { placeId, fields: ['place_id', 'name', 'formatted_address', 'geometry', 'types'] },
+        { placeId, fields: APP_CONFIG.GOOGLE_MAPS_FIELDS as unknown as string[] },
         (result, status) => {
           if (status === window.google.maps.places.PlacesServiceStatus.OK && result) {
             const place: Place = {
@@ -34,8 +37,8 @@ export const getPlaceDetails = async (placeId: string): Promise<Place | null> =>
         }
       );
     });
-  } catch (error) {
-    console.error('Error fetching place details:', error);
+  } catch (error: unknown) {
+    logError('getPlaceDetails', error);
     return null;
   }
 };

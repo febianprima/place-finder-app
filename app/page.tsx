@@ -1,14 +1,15 @@
 'use client';
 
 import { Layout, Row, Col } from 'antd';
-import { Header, Footer, MapCard, SearchHistory, TechStack } from '@/components';
+import { Header, Footer, MapCard, SearchHistory, TechStack, ErrorBoundary } from '@/components';
 
 const { Content } = Layout;
 
 export default function Home() {
   return (
-    <Layout className="min-h-screen">
-      <Header />
+    <ErrorBoundary>
+      <Layout className="min-h-screen">
+        <Header />
       <Content className="p-6 md:px-12 bg-gray-100">
         <div className="max-w-7xl mx-auto">
           <Row gutter={[24, 24]}>
@@ -23,6 +24,7 @@ export default function Home() {
         </div>
       </Content>
       <Footer />
-    </Layout>
+      </Layout>
+    </ErrorBoundary>
   );
 }

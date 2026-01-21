@@ -2,14 +2,8 @@ import { useState, useCallback } from 'react';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { useSelector } from 'react-redux';
 import { currentPlaceSelector, isLoadingSelector, errorSelector } from '@/store/selectors';
-
-const defaultCenter = {
-  lat: 3.1488,
-  lng: 101.7140, // Maybank Tower, Kuala Lumpur
-};
-
-// Must be outside component to avoid re-renders
-const libraries: ('places')[] = ['places'];
+import { APP_CONFIG } from '@/constants';
+import { getGoogleMapsApiKey } from '@/utils';
 
 export const useMap = () => {
   const currentPlace = useSelector(currentPlaceSelector);
@@ -17,15 +11,15 @@ export const useMap = () => {
   const error = useSelector(errorSelector);
   const [selectedMarker, setSelectedMarker] = useState<Place | null>(null);
   
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
-  const hasApiKey = apiKey && apiKey.length > 0;
+  const apiKey = getGoogleMapsApiKey();
+  const hasApiKey = apiKey.length > 0;
 
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: apiKey,
-    libraries,
+    libraries: APP_CONFIG.GOOGLE_MAPS_LIBRARIES,
   });
 
-  const center = currentPlace?.location ?? defaultCenter;
+  const center = currentPlace?.location ?? APP_CONFIG.DEFAULT_CENTER;
 
   const onMarkerClick = useCallback((place: Place) => {
     setSelectedMarker(place);

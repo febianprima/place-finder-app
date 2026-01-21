@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { searchPlaceByQuery } from '@/services';
+import { getErrorMessage } from '@/utils';
 
 // Async thunk for searching places
 export const searchPlace = createAsyncThunk(
@@ -8,8 +9,8 @@ export const searchPlace = createAsyncThunk(
     try {
       const place = await searchPlaceByQuery(query);
       return { query, place };
-    } catch (error) {
-      return rejectWithValue(error instanceof Error ? error.message : 'Search failed');
+    } catch (error: unknown) {
+      return rejectWithValue(getErrorMessage(error, 'Search failed'));
     }
   }
 );

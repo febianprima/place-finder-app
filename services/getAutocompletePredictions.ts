@@ -1,3 +1,5 @@
+import { logError } from '@/utils';
+
 /**
  * Get autocomplete predictions using Google Places Autocomplete Service
  * Note: This uses the Google Maps JavaScript API through the browser, not direct HTTP calls
@@ -35,8 +37,8 @@ export const getAutocompletePredictions = async (
         }
       );
     });
-  } catch (error) {
-    console.error('Error fetching autocomplete:', error);
+  } catch (error: unknown) {
+    logError('getAutocompletePredictions', error);
     return [];
   }
 };

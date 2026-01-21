@@ -1,9 +1,13 @@
+import { APP_CONFIG } from '@/constants';
+import { logError, withRetry } from '@/utils';
+
 /**
  * Search for a place using Google Places Service (Text Search)
  * This function demonstrates the use of async operations with Redux Thunk
  * Note: This uses the Google Maps JavaScript API through the browser, not direct HTTP calls
  */
 export const searchPlaceByQuery = async (query: string): Promise<Place> => {
+  return withRetry(async () => {
   try {
     if (!window.google?.maps?.places?.PlacesService) {
       throw new Error('Google Places API not loaded');
@@ -17,7 +21,7 @@ export const searchPlaceByQuery = async (query: string): Promise<Place> => {
       service.findPlaceFromQuery(
         {
           query,
-          fields: ['place_id', 'name', 'formatted_address', 'geometry', 'types'],
+          fields: APP_CONFIG.GOOGLE_MAPS_FIELDS as unknown as string[],
         },
         (results, status) => {
           if (status === window.google.maps.places.PlacesServiceStatus.OK && results && results.length > 0) {
@@ -42,8 +46,9 @@ export const searchPlaceByQuery = async (query: string): Promise<Place> => {
         }
       );
     });
-  } catch (error) {
-    console.error('Error fetching place:', error);
+  } catch (error: unknown) {
+    logError('searchPlaceByQuery', error);
     throw new Error('Failed to fetch place information');
   }
+  }, 2, 'searchPlaceByQuery'); // Retry up to 2 times for search
 };

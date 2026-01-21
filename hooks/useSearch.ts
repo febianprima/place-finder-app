@@ -4,6 +4,7 @@ import { searchPlace, setCurrentPlaceWithHistory } from '@/store/slices';
 import { isLoadingSelector } from '@/store/selectors';
 import { getAutocompletePredictions, getPlaceDetails } from '@/services';
 import { debounce } from '@/utils';
+import { APP_CONFIG } from '@/constants';
 import type { AppDispatch } from '@/store';
 
 interface AutocompleteOption {
@@ -34,11 +35,11 @@ export const useSearch = () => {
           place,
         }));
         setOptions(autoCompleteOptions);
-      } catch (error) {
+      } catch (error: unknown) {
         console.error('Autocomplete error:', error);
         setOptions([]);
       }
-    }, 300),
+    }, APP_CONFIG.AUTOCOMPLETE_DEBOUNCE_MS),
     []
   );
 
