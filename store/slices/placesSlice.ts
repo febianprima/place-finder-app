@@ -98,10 +98,8 @@ const placesSlice = createSlice({
 export const {
   setCurrentPlace,
   setCurrentPlaceWithHistory,
-  clearCurrentPlace,
   removeFromHistory,
   clearHistory,
-  clearError,
 } = placesSlice.actions;
 
 export const placesReducer = placesSlice.reducer;
