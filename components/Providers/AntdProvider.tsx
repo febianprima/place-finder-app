@@ -10,7 +10,7 @@ interface AntdProviderProps {
 /**
  * Ant Design ConfigProvider to customize theme
  */
-const AntdProvider: React.FC<AntdProviderProps> = ({ children }) => {
+export const AntdProvider: React.FC<AntdProviderProps> = ({ children }) => {
   return (
     <ConfigProvider
       theme={{
@@ -24,5 +24,3 @@ const AntdProvider: React.FC<AntdProviderProps> = ({ children }) => {
     </ConfigProvider>
   );
 };
-
-export default AntdProvider;

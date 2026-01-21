@@ -18,7 +18,7 @@ import { SearchHistoryItem } from '@/types/place';
 
 const { Text, Title } = Typography;
 
-const SearchHistory: React.FC = () => {
+export const SearchHistory: React.FC = () => {
   const dispatch = useAppDispatch();
   const { searchHistory } = useAppSelector((state) => state.places);
 
@@ -140,5 +140,3 @@ const SearchHistory: React.FC = () => {
     </Card>
   );
 };
-
-export default SearchHistory;

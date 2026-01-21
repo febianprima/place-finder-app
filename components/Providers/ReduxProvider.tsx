@@ -12,8 +12,6 @@ interface ReduxProviderProps {
  * Redux Provider component to wrap the application
  * This is a Higher Order Component (HOC) pattern
  */
-const ReduxProvider: React.FC<ReduxProviderProps> = ({ children }) => {
+export const ReduxProvider: React.FC<ReduxProviderProps> = ({ children }) => {
   return <Provider store={store}>{children}</Provider>;
 };
-
-export default ReduxProvider;

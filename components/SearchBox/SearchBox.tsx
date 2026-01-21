@@ -15,7 +15,7 @@ interface AutocompleteOption {
   place: Place;
 }
 
-const SearchBox: React.FC = () => {
+export const SearchBox: React.FC = () => {
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector((state) => state.places);
   const [options, setOptions] = useState<AutocompleteOption[]>([]);
@@ -114,5 +114,3 @@ const SearchBox: React.FC = () => {
     </div>
   );
 };
-
-export default SearchBox;

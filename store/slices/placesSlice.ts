@@ -80,4 +80,4 @@ export const {
   clearError,
 } = placesSlice.actions;
 
-export default placesSlice.reducer;
+export const placesReducer = placesSlice.reducer;
