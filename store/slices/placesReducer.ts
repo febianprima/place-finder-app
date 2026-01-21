@@ -1,25 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { searchPlace } from './placesActions';
-
-const initialState: PlacesState = {
-  currentPlace: {
-    id: 'default-maybank-tower',
-    name: 'Maybank Tower',
-    formattedAddress: '100, Jalan Tun Perak, Kuala Lumpur City Centre, 50050 Kuala Lumpur, Malaysia',
-    location: {
-      lat: 3.1488,
-      lng: 101.7140,
-    },
-    types: ['point_of_interest', 'establishment'],
-  },
-  searchHistory: [],
-  isLoading: false,
-  error: null,
-};
+import { PLACES_INITIAL_STATE } from '@/constants';
 
 const placesSlice = createSlice({
   name: 'places',
-  initialState,
+  initialState: PLACES_INITIAL_STATE,
   reducers: {
     setCurrentPlace: (state, action: PayloadAction<Place>) => {
       state.currentPlace = action.payload;
