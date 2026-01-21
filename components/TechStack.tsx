@@ -5,46 +5,47 @@ import { Card, Typography, Row, Col } from 'antd';
 
 const { Text } = Typography;
 
+interface TechStackCard {
+  title: string;
+  technologies: string[];
+}
+
+const TECH_STACK_CONFIG: TechStackCard[] = [
+  {
+    title: 'Frontend',
+    technologies: ['Next.js 16', 'TypeScript'],
+  },
+  {
+    title: 'State Management',
+    technologies: ['Redux Toolkit', 'Redux Thunk'],
+  },
+  {
+    title: 'UI Library',
+    technologies: ['Ant Design', 'Tailwind CSS'],
+  },
+  {
+    title: 'Maps & API',
+    technologies: ['Google Maps API', 'Places API'],
+  },
+];
+
 const TechStackComponent = () => {
   return (
     <Card className="mt-6" title="Technology Stack">
       <Row gutter={[16, 16]}>
-        <Col xs={24} sm={12} md={6}>
-          <Card type="inner" size="small">
-            <Text strong>Frontend</Text>
-            <br />
-            <Text type="secondary">Next.js 16</Text>
-            <br />
-            <Text type="secondary">TypeScript</Text>
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={6}>
-          <Card type="inner" size="small">
-            <Text strong>State Management</Text>
-            <br />
-            <Text type="secondary">Redux Toolkit</Text>
-            <br />
-            <Text type="secondary">Redux Thunk</Text>
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={6}>
-          <Card type="inner" size="small">
-            <Text strong>UI Library</Text>
-            <br />
-            <Text type="secondary">Ant Design</Text>
-            <br />
-            <Text type="secondary">Tailwind CSS</Text>
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={6}>
-          <Card type="inner" size="small">
-            <Text strong>Maps & API</Text>
-            <br />
-            <Text type="secondary">Google Maps API</Text>
-            <br />
-            <Text type="secondary">Places API</Text>
-          </Card>
-        </Col>
+        {TECH_STACK_CONFIG.map((stack) => (
+          <Col key={stack.title} xs={24} sm={12} md={6}>
+            <Card type="inner" size="small">
+              <Text strong>{stack.title}</Text>
+              {stack.technologies.map((tech) => (
+                <React.Fragment key={tech}>
+                  <br />
+                  <Text type="secondary">{tech}</Text>
+                </React.Fragment>
+              ))}
+            </Card>
+          </Col>
+        ))}
       </Row>
     </Card>
   );
