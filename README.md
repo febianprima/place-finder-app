@@ -85,7 +85,7 @@ place-finder-app/
 ├── utils/
 │   ├── mockPlaces.ts            # Mock data for fallback
 │   └── debounce.ts              # Debounce utility (HOF)
-├── .env.local.example           # Environment variables template
+├── .env.example                 # Environment variables template
 └── README.md                    # This file
 ```
 
@@ -94,19 +94,20 @@ place-finder-app/
 ### Prerequisites
 
 - Node.js 18.x or higher
-- npm or yarn package manager
+- Yarn package manager
 - Google Maps API key (optional - app works with mock data)
 
 ### Installation
 
 1. **Clone the repository:**
    ```bash
+   git clone git@github.com:febianprima/place-finder-app.git
    cd place-finder-app
    ```
 
 2. **Install dependencies:**
    ```bash
-   npm install
+   yarn install
    ```
 
 3. **Set up environment variables:**
@@ -130,7 +131,7 @@ place-finder-app/
 
 4. **Run the development server:**
    ```bash
-   npm run dev
+   yarn dev
    ```
 
 5. **Open your browser:**
