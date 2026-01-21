@@ -1,11 +1,7 @@
 import { Place } from '@/types/place';
-import { searchMockPlaces } from '@/utils/mockPlaces';
-
-const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-const USE_MOCK_DATA = !GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY === '';
 
 /**
- * Search for a place using Google Geocoder API or mock data
+ * Search for a place using Google Geocoder API
  * This function demonstrates the use of async operations with Redux Thunk
  * Note: This uses the Google Maps JavaScript API through the browser, not direct HTTP calls
  */
@@ -13,18 +9,7 @@ export const searchPlaceByQuery = async (query: string): Promise<Place> => {
   // Simulate network delay
   await new Promise((resolve) => setTimeout(resolve, 500));
 
-  if (USE_MOCK_DATA) {
-    // Use mock data when API key is not available
-    const mockPlace = searchMockPlaces(query);
-    
-    if (!mockPlace) {
-      throw new Error('No place found matching your query');
-    }
-    
-    return mockPlace;
-  }
-
-  // Use Google Geocoder API when available
+  // Use Google Geocoder API
   try {
     if (!window.google?.maps?.Geocoder) {
       throw new Error('Google Maps API not loaded');
@@ -62,7 +47,7 @@ export const searchPlaceByQuery = async (query: string): Promise<Place> => {
 };
 
 /**
- * Get autocomplete predictions using Google Places Autocomplete Service or mock data
+ * Get autocomplete predictions using Google Places Autocomplete Service
  * Note: This uses the Google Maps JavaScript API through the browser, not direct HTTP calls
  */
 export const getAutocompletePredictions = async (
@@ -74,12 +59,6 @@ export const getAutocompletePredictions = async (
 
   // Simulate network delay
   await new Promise((resolve) => setTimeout(resolve, 300));
-
-  if (USE_MOCK_DATA) {
-    // Use mock data
-    const { getMockAutocompleteSuggestions } = await import('@/utils/mockPlaces');
-    return getMockAutocompleteSuggestions(input);
-  }
 
   // Use Google Places Autocomplete Service
   try {
@@ -118,10 +97,6 @@ export const getAutocompletePredictions = async (
  * Get place details by place ID
  */
 export const getPlaceDetails = async (placeId: string): Promise<Place | null> => {
-  if (USE_MOCK_DATA) {
-    return null;
-  }
-
   try {
     if (!window.google?.maps?.places?.PlacesService) {
       throw new Error('Google Places API not loaded');
@@ -159,8 +134,3 @@ export const getPlaceDetails = async (placeId: string): Promise<Place | null> =>
     return null;
   }
 };
-
-/**
- * Check if using mock data
- */
-export const isUsingMockData = (): boolean => USE_MOCK_DATA;

@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { AutoComplete, Input, Tag } from 'antd';
+import { AutoComplete, Input } from 'antd';
 import { SearchOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchPlace } from '@/store/slices/placesSlice';
-import { getAutocompletePredictions, isUsingMockData } from '@/services/placesService';
+import { getAutocompletePredictions } from '@/services/placesService';
 import { Place } from '@/types/place';
 import { debounce } from '@/utils/debounce';
 import type { RootState, AppDispatch } from '@/store';
@@ -21,7 +21,6 @@ export const SearchBox: React.FC = () => {
   const { isLoading } = useSelector((state: RootState) => state.places);
   const [options, setOptions] = useState<AutocompleteOption[]>([]);
   const [searchValue, setSearchValue] = useState('');
-  const usingMockData = isUsingMockData();
 
   // Debounced autocomplete search
   const debouncedSearch = useMemo(
@@ -90,11 +89,6 @@ export const SearchBox: React.FC = () => {
 
   return (
     <div className="w-full">
-      <div className="mb-3 flex items-center gap-2">
-        {usingMockData && (
-          <Tag color="orange">Using Mock Data</Tag>
-        )}
-      </div>
       <AutoComplete
         value={searchValue}
         options={options}
@@ -106,7 +100,7 @@ export const SearchBox: React.FC = () => {
       >
         <Input
           size="large"
-          placeholder="Search for a place..."
+          placeholder="Search for a place eg. Maybank Tower Kuala Lumpur"
           prefix={<SearchOutlined />}
           onPressEnter={handlePressEnter}
           disabled={isLoading}
