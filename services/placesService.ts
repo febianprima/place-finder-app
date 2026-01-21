@@ -1,7 +1,7 @@
 import { Place } from '@/types/place';
 
 /**
- * Search for a place using Google Geocoder API
+ * Search for a place using Google Places Service (Text Search)
  * This function demonstrates the use of async operations with Redux Thunk
  * Note: This uses the Google Maps JavaScript API through the browser, not direct HTTP calls
  */
@@ -9,36 +9,44 @@ export const searchPlaceByQuery = async (query: string): Promise<Place> => {
   // Simulate network delay
   await new Promise((resolve) => setTimeout(resolve, 500));
 
-  // Use Google Geocoder API
+  // Use Google Places Service for text search
   try {
-    if (!window.google?.maps?.Geocoder) {
-      throw new Error('Google Maps API not loaded');
+    if (!window.google?.maps?.places?.PlacesService) {
+      throw new Error('Google Places API not loaded');
     }
 
-    const geocoder = new window.google.maps.Geocoder();
+    // Need a dummy div for PlacesService
+    const div = document.createElement('div');
+    const service = new window.google.maps.places.PlacesService(div);
     
     return new Promise((resolve, reject) => {
-      geocoder.geocode({ address: query }, (results, status) => {
-        if (status === 'OK' && results && results.length > 0) {
-          const result = results[0];
-          
-          const place: Place = {
-            id: result.place_id,
-            name: result.formatted_address.split(',')[0],
-            formattedAddress: result.formatted_address,
-            location: {
-              lat: result.geometry.location.lat(),
-              lng: result.geometry.location.lng(),
-            },
-            types: result.types,
-            placeId: result.place_id,
-          };
+      service.findPlaceFromQuery(
+        {
+          query,
+          fields: ['place_id', 'name', 'formatted_address', 'geometry', 'types'],
+        },
+        (results, status) => {
+          if (status === window.google.maps.places.PlacesServiceStatus.OK && results && results.length > 0) {
+            const result = results[0];
+            
+            const place: Place = {
+              id: result.place_id!,
+              name: result.name || query.split(',')[0],
+              formattedAddress: result.formatted_address || query,
+              location: {
+                lat: result.geometry?.location?.lat() || 0,
+                lng: result.geometry?.location?.lng() || 0,
+              },
+              types: result.types,
+              placeId: result.place_id,
+            };
 
-          resolve(place);
-        } else {
-          reject(new Error('No place found matching your query'));
+            resolve(place);
+          } else {
+            reject(new Error('No place found matching your query'));
+          }
         }
-      });
+      );
     });
   } catch (error) {
     console.error('Error fetching place:', error);
