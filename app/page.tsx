@@ -1,30 +1,16 @@
 'use client';
 
 import { Layout, Typography, Row, Col, Divider, Space, Card } from 'antd';
-import { EnvironmentOutlined, GithubOutlined } from '@ant-design/icons';
-import { SearchBox, Map, SearchHistory } from '@/components';
+import { EnvironmentOutlined } from '@ant-design/icons';
+import { Header, Footer, SearchBox, Map, SearchHistory } from '@/components';
 
-const { Header, Content, Footer } = Layout;
-const { Title, Text, Link } = Typography;
+const { Content } = Layout;
+const { Title, Text } = Typography;
 
 export default function Home() {
   return (
     <Layout className="min-h-screen">
-      <Header className="bg-white shadow-md px-12 sticky top-0 z-[1000]">
-        <div className="flex items-center justify-between h-16">
-          <Space>
-            <EnvironmentOutlined className="text-2xl text-blue-500" />
-            <Title level={3} className="!m-0 !text-blue-500">
-              Place Finder
-            </Title>
-          </Space>
-          <Space>
-            <Link href="https://github.com" target="_blank">
-              <GithubOutlined className="text-2xl" />
-            </Link>
-          </Space>
-        </div>
-      </Header>
+      <Header />
 
       <Content className="p-6 md:px-12 bg-gray-100">
         <div className="max-w-7xl mx-auto">
@@ -108,11 +94,7 @@ export default function Home() {
         </div>
       </Content>
 
-      <Footer className="text-center bg-gray-900 text-white">
-        <Text className="text-white">
-          Place Finder ©{new Date().getFullYear()} | Built with Next.js, Redux, and Ant Design
-        </Text>
-      </Footer>
+      <Footer />
     </Layout>
   );
 }
