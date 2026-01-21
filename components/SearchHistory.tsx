@@ -17,7 +17,7 @@ import {
 import { SearchHistoryItem } from '@/types/place';
 import type { RootState, AppDispatch } from '@/store';
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 export const SearchHistory: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

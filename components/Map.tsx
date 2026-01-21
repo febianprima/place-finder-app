@@ -56,7 +56,7 @@ export const Map: React.FC = () => {
 
   if (!hasApiKey) {
     return (
-      <Card className="h-[500px] flex items-center justify-center bg-gray-100">
+      <Card className="h-[200px] flex items-center justify-center bg-gray-100">
         <div className="text-center p-5">
           <Alert
             message="Google Maps API Key Required"
