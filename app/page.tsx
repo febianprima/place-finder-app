@@ -9,52 +9,31 @@ const { Title, Text, Link } = Typography;
 
 export default function Home() {
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Header
-        style={{
-          background: '#fff',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-          padding: '0 50px',
-          position: 'sticky',
-          top: 0,
-          zIndex: 1000,
-        }}
-      >
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between',
-          height: '64px'
-        }}>
+    <Layout className="min-h-screen">
+      <Header className="bg-white shadow-md px-12 sticky top-0 z-[1000]">
+        <div className="flex items-center justify-between h-16">
           <Space>
-            <EnvironmentOutlined style={{ fontSize: '24px', color: '#1890ff' }} />
-            <Title level={3} style={{ margin: 0, color: '#1890ff' }}>
+            <EnvironmentOutlined className="text-2xl text-blue-500" />
+            <Title level={3} className="!m-0 !text-blue-500">
               Place Finder
             </Title>
           </Space>
           <Space>
             <Link href="https://github.com" target="_blank">
-              <GithubOutlined style={{ fontSize: '24px' }} />
+              <GithubOutlined className="text-2xl" />
             </Link>
           </Space>
         </div>
       </Header>
 
-      <Content style={{ padding: '24px 50px', background: '#f0f2f5' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+      <Content className="p-6 md:px-12 bg-gray-100">
+        <div className="max-w-7xl mx-auto">
           {/* Hero Section */}
-          <div style={{ 
-            textAlign: 'center', 
-            marginBottom: '32px',
-            padding: '40px 20px',
-            background: '#fff',
-            borderRadius: '8px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-          }}>
-            <Title level={1} style={{ marginBottom: '12px' }}>
+          <div className="text-center mb-8 p-10 md:p-10 bg-white rounded-lg shadow-md">
+            <Title level={1} className="!mb-3">
               Discover Places Around the World
             </Title>
-            <Text type="secondary" style={{ fontSize: '16px' }}>
+            <Text type="secondary" className="text-base">
               Search for any location using Google Places API with intelligent autocomplete
             </Text>
             <Divider />
@@ -73,7 +52,7 @@ export default function Home() {
                   </Space>
                 }
                 bordered={false}
-                style={{ height: '100%' }}
+                className="h-full"
               >
                 <Map />
               </Card>
@@ -86,10 +65,7 @@ export default function Home() {
           </Row>
 
           {/* Technology Stack Info */}
-          <Card 
-            style={{ marginTop: '24px' }}
-            title="Technology Stack"
-          >
+          <Card className="mt-6" title="Technology Stack">
             <Row gutter={[16, 16]}>
               <Col xs={24} sm={12} md={6}>
                 <Card type="inner" size="small">
@@ -132,8 +108,8 @@ export default function Home() {
         </div>
       </Content>
 
-      <Footer style={{ textAlign: 'center', background: '#001529', color: '#fff' }}>
-        <Text style={{ color: '#fff' }}>
+      <Footer className="text-center bg-gray-900 text-white">
+        <Text className="text-white">
           Place Finder ©{new Date().getFullYear()} | Built with Next.js, Redux, and Ant Design
         </Text>
       </Footer>

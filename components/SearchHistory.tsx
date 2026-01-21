@@ -54,7 +54,7 @@ export const SearchHistory: React.FC = () => {
   return (
     <Card
       title={
-        <Space style={{ width: '100%', justifyContent: 'space-between' }}>
+        <div className="flex items-center justify-between w-full">
           <Space>
             <ClockCircleOutlined />
             <span>Search History</span>
@@ -73,9 +73,9 @@ export const SearchHistory: React.FC = () => {
               Clear All
             </Button>
           )}
-        </Space>
+        </div>
       }
-      style={{ height: '100%', maxHeight: '500px', overflow: 'auto' }}
+      className="h-full max-h-[500px] overflow-auto"
     >
       {searchHistory.length === 0 ? (
         <Empty
@@ -89,13 +89,7 @@ export const SearchHistory: React.FC = () => {
             <List.Item
               key={item.id}
               onClick={() => handleSelectPlace(item)}
-              style={{
-                cursor: 'pointer',
-                transition: 'background 0.2s',
-                padding: '12px',
-                borderRadius: '4px',
-              }}
-              className="history-item"
+              className="cursor-pointer transition-colors p-3 rounded hover:bg-gray-100"
               actions={[
                 <Button
                   key="delete"
@@ -108,36 +102,30 @@ export const SearchHistory: React.FC = () => {
               ]}
             >
               <List.Item.Meta
-                avatar={<EnvironmentOutlined style={{ fontSize: '20px', color: '#1890ff' }} />}
+                avatar={<EnvironmentOutlined className="text-xl text-blue-500" />}
                 title={
-                  <Space direction="vertical" size={0} style={{ width: '100%' }}>
+                  <div className="flex flex-col w-full">
                     <Text strong>{item.place.name}</Text>
-                    <Text type="secondary" style={{ fontSize: '12px' }}>
+                    <Text type="secondary" className="text-xs">
                       {item.query}
                     </Text>
-                  </Space>
+                  </div>
                 }
                 description={
-                  <Space direction="vertical" size={0}>
-                    <Text type="secondary" style={{ fontSize: '12px' }}>
+                  <div className="flex flex-col">
+                    <Text type="secondary" className="text-xs">
                       {item.place.formattedAddress}
                     </Text>
-                    <Text type="secondary" style={{ fontSize: '11px' }}>
+                    <Text type="secondary" className="text-[11px]">
                       {formatTimestamp(item.timestamp)}
                     </Text>
-                  </Space>
+                  </div>
                 }
               />
             </List.Item>
           )}
         />
       )}
-      
-      <style jsx global>{`
-        .history-item:hover {
-          background: #f5f5f5 !important;
-        }
-      `}</style>
     </Card>
   );
 };

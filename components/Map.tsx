@@ -56,33 +56,19 @@ export const Map: React.FC = () => {
 
   if (!hasApiKey) {
     return (
-      <Card
-        style={{
-          height: '500px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: '#f0f2f5',
-        }}
-      >
-        <div style={{ textAlign: 'center', padding: '20px' }}>
+      <Card className="h-[500px] flex items-center justify-center bg-gray-100">
+        <div className="text-center p-5">
           <Alert
             message="Google Maps API Key Required"
             description={
               <div>
                 <p>To display the map, please add your Google Maps API key.</p>
                 <p>Create a <code>.env.local</code> file and add:</p>
-                <pre style={{ 
-                  background: '#fff', 
-                  padding: '12px', 
-                  borderRadius: '4px',
-                  marginTop: '12px',
-                  textAlign: 'left'
-                }}>
+                <pre className="bg-white p-3 rounded mt-3 text-left">
                   NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_api_key_here
                 </pre>
                 {currentPlace && (
-                  <div style={{ marginTop: '16px' }}>
+                  <div className="mt-4">
                     <p><strong>Selected Location:</strong></p>
                     <p>{currentPlace.name}</p>
                     <p>{currentPlace.formattedAddress}</p>
@@ -101,37 +87,16 @@ export const Map: React.FC = () => {
 
   if (!isLoaded) {
     return (
-      <Card
-        style={{
-          height: '500px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+      <Card className="h-[500px] flex items-center justify-center">
         <Spin size="large" tip="Loading map..." />
       </Card>
     );
   }
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div className="relative">
       {isLoading && (
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(255, 255, 255, 0.8)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
-            borderRadius: '8px',
-          }}
-        >
+        <div className="absolute inset-0 bg-white/80 flex items-center justify-center z-[1000] rounded-lg">
           <Spin size="large" tip="Searching..." />
         </div>
       )}
@@ -142,7 +107,7 @@ export const Map: React.FC = () => {
           description={error}
           type="error"
           closable
-          style={{ marginBottom: '16px' }}
+          className="mb-4"
         />
       )}
 
@@ -169,11 +134,11 @@ export const Map: React.FC = () => {
             position={selectedMarker.location}
             onCloseClick={onInfoWindowClose}
           >
-            <div style={{ padding: '8px' }}>
-              <h3 style={{ margin: '0 0 8px 0', fontSize: '16px' }}>
+            <div className="p-2">
+              <h3 className="m-0 mb-2 text-base font-semibold">
                 {selectedMarker.name}
               </h3>
-              <p style={{ margin: 0, fontSize: '14px', color: '#666' }}>
+              <p className="m-0 text-sm text-gray-600">
                 {selectedMarker.formattedAddress}
               </p>
             </div>

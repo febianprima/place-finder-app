@@ -36,11 +36,11 @@ export const SearchBox: React.FC = () => {
         const autoCompleteOptions: AutocompleteOption[] = predictions.map((place) => ({
           value: place.name,
           label: (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <EnvironmentOutlined style={{ color: '#1890ff' }} />
+            <div className="flex items-center gap-2">
+              <EnvironmentOutlined className="text-blue-500" />
               <div>
-                <div style={{ fontWeight: 500 }}>{place.name}</div>
-                <div style={{ fontSize: '12px', color: '#888' }}>
+                <div className="font-medium">{place.name}</div>
+                <div className="text-xs text-gray-500">
                   {place.formattedAddress}
                 </div>
               </div>
@@ -89,8 +89,8 @@ export const SearchBox: React.FC = () => {
   };
 
   return (
-    <div style={{ width: '100%', maxWidth: '600px' }}>
-      <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+    <div className="w-full max-w-2xl">
+      <div className="mb-3 flex items-center gap-2">
         {usingMockData && (
           <Tag color="orange">Using Mock Data</Tag>
         )}
@@ -100,7 +100,7 @@ export const SearchBox: React.FC = () => {
         options={options}
         onSearch={handleSearch}
         onSelect={handleSelect}
-        style={{ width: '100%' }}
+        className="w-full"
         size="large"
       >
         <Input
