@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchPlace, setCurrentPlaceWithHistory } from '@/store/slices/placesSlice';
-import { getAutocompletePredictions } from '@/services/placesService';
+import { getAutocompletePredictions, getPlaceDetails } from '@/services';
 import { Place } from '@/types/place';
 import { debounce } from '@/utils/debounce';
 import type { RootState, AppDispatch } from '@/store';
@@ -58,7 +58,6 @@ export const useSearch = () => {
       }));
     } else if (option.place.placeId) {
       // Otherwise, get place details first to get coordinates
-      const { getPlaceDetails } = await import('@/services/placesService');
       const placeDetails = await getPlaceDetails(option.place.placeId);
       if (placeDetails) {
         dispatch(setCurrentPlaceWithHistory({ 

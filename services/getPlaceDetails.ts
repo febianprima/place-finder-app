@@ -1,0 +1,43 @@
+import { Place } from '@/types/place';
+
+/**
+ * Get place details by place ID
+ */
+export const getPlaceDetails = async (placeId: string): Promise<Place | null> => {
+  try {
+    if (!window.google?.maps?.places?.PlacesService) {
+      throw new Error('Google Places API not loaded');
+    }
+
+    // Need a dummy div for PlacesService
+    const div = document.createElement('div');
+    const service = new window.google.maps.places.PlacesService(div);
+    
+    return new Promise((resolve) => {
+      service.getDetails(
+        { placeId, fields: ['place_id', 'name', 'formatted_address', 'geometry', 'types'] },
+        (result, status) => {
+          if (status === window.google.maps.places.PlacesServiceStatus.OK && result) {
+            const place: Place = {
+              id: result.place_id!,
+              name: result.name || '',
+              formattedAddress: result.formatted_address || '',
+              location: {
+                lat: result.geometry?.location?.lat() || 0,
+                lng: result.geometry?.location?.lng() || 0,
+              },
+              types: result.types,
+              placeId: result.place_id,
+            };
+            resolve(place);
+          } else {
+            resolve(null);
+          }
+        }
+      );
+    });
+  } catch (error) {
+    console.error('Error fetching place details:', error);
+    return null;
+  }
+};

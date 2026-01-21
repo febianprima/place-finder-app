@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { Place, PlacesState, SearchHistoryItem } from '@/types/place';
-import { searchPlaceByQuery } from '@/services/placesService';
+import { searchPlaceByQuery } from '@/services';
 
 const initialState: PlacesState = {
   currentPlace: {
