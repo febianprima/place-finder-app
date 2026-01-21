@@ -1,7 +1,7 @@
 'use client';
 
 import { Layout, Row, Col } from 'antd';
-import { Header, Footer, HeroSection, SearchHistory, TechStack } from '@/components';
+import { Header, Footer, MapCard, SearchHistory, TechStack } from '@/components';
 
 const { Content } = Layout;
 
@@ -14,7 +14,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <Row gutter={[24, 24]}>
             <Col xs={24} lg={16}>
-              <HeroSection />
+              <MapCard />
             </Col>
 
             <Col xs={24} lg={8}>

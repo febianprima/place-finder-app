@@ -8,7 +8,7 @@ import { Map } from './Map';
 
 const { Text } = Typography;
 
-const HeroSectionComponent = () => {
+const MapCardComponent = () => {
   return (
     <Card 
       title={
@@ -29,4 +29,4 @@ const HeroSectionComponent = () => {
   );
 };
 
-export const HeroSection = React.memo(HeroSectionComponent);
+export const MapCard = React.memo(MapCardComponent);
