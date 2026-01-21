@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { searchPlace, setCurrentPlaceWithHistory } from '@/store/slices/placesSlice';
 import { isLoadingSelector } from '@/store/selectors';
 import { getAutocompletePredictions, getPlaceDetails } from '@/services';
-import { Place } from '@/types/place';
 import { debounce } from '@/utils';
 import type { AppDispatch } from '@/store';
 

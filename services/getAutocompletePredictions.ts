@@ -1,5 +1,3 @@
-import { Place } from '@/types/place';
-
 /**
  * Get autocomplete predictions using Google Places Autocomplete Service
  * Note: This uses the Google Maps JavaScript API through the browser, not direct HTTP calls

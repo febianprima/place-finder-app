@@ -2,7 +2,6 @@ import { useState, useCallback } from 'react';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { useSelector } from 'react-redux';
 import { currentPlaceSelector, isLoadingSelector, errorSelector } from '@/store/selectors';
-import { Place } from '@/types/place';
 
 const defaultCenter = {
   lat: 3.1488,

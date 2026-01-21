@@ -1,4 +1,4 @@
-export interface Place {
+interface Place {
   id: string;
   name: string;
   formattedAddress: string;
@@ -10,14 +10,14 @@ export interface Place {
   placeId?: string;
 }
 
-export interface SearchHistoryItem {
+interface SearchHistoryItem {
   id: string;
   query: string;
   place: Place;
   timestamp: number;
 }
 
-export interface PlacesState {
+interface PlacesState {
   currentPlace: Place | null;
   searchHistory: SearchHistoryItem[];
   isLoading: boolean;

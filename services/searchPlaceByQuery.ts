@@ -1,5 +1,3 @@
-import { Place } from '@/types/place';
-
 /**
  * Search for a place using Google Places Service (Text Search)
  * This function demonstrates the use of async operations with Redux Thunk

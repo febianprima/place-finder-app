@@ -5,7 +5,6 @@ import {
   setCurrentPlace,
 } from '@/store/slices/placesSlice';
 import { searchHistorySelector } from '@/store/selectors';
-import { SearchHistoryItem } from '@/types/place';
 import type { AppDispatch } from '@/store';
 
 export const useSearchHistory = () => {

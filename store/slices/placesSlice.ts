@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { Place, PlacesState, SearchHistoryItem } from '@/types/place';
 import { searchPlaceByQuery } from '@/services';
 
 const initialState: PlacesState = {
@@ -70,15 +69,15 @@ const placesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(searchPlace.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(searchPlace.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.currentPlace = action.payload.place;
-        
-        // Add to search history
-        const historyItem: SearchHistoryItem = {
+      state.isLoading = true;
+      state.error = null;
+    })
+    .addCase(searchPlace.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.currentPlace = action.payload.place;
+      
+      // Add to search history
+      const historyItem: SearchHistoryItem = {
           id: `${Date.now()}-${Math.random()}`,
           query: action.payload.query,
           place: action.payload.place,

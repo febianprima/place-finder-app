@@ -1,5 +1,3 @@
-import { Place } from '@/types/place';
-
 /**
  * Get place details by place ID
  */
