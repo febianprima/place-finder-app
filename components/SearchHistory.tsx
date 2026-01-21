@@ -64,9 +64,6 @@ export const SearchHistory: React.FC = () => {
                 <EnvironmentOutlined className="text-xl text-blue-500 mt-1 flex-shrink-0" />
                 <div className="flex flex-col flex-1 min-w-0">
                   <Text strong className="block">{item.place.name}</Text>
-                  <Text type="secondary" className="text-xs block">
-                    {item.query}
-                  </Text>
                   <Paragraph 
                     type="secondary" 
                     className="text-xs !mb-0 mt-1" 
