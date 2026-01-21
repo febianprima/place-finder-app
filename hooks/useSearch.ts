@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchPlace, setCurrentPlaceWithHistory } from '@/store/slices/placesSlice';
+import { searchPlace, setCurrentPlaceWithHistory } from '@/store/slices';
 import { isLoadingSelector } from '@/store/selectors';
 import { getAutocompletePredictions, getPlaceDetails } from '@/services';
 import { debounce } from '@/utils';

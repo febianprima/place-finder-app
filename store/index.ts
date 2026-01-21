@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { placesReducer } from './slices/placesSlice';
+import { placesReducer } from './slices';
 
 export const store = configureStore({
   reducer: {

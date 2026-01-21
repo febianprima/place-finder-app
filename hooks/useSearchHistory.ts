@@ -3,7 +3,7 @@ import {
   removeFromHistory,
   clearHistory,
   setCurrentPlace,
-} from '@/store/slices/placesSlice';
+} from '@/store/slices';
 import { searchHistorySelector } from '@/store/selectors';
 import type { AppDispatch } from '@/store';
 

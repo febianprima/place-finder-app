@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { searchPlaceByQuery } from '@/services';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { searchPlace } from './placesActions';
 
 const initialState: PlacesState = {
   currentPlace: {
@@ -16,19 +16,6 @@ const initialState: PlacesState = {
   isLoading: false,
   error: null,
 };
-
-// Async thunk for searching places
-export const searchPlace = createAsyncThunk(
-  'places/searchPlace',
-  async (query: string, { rejectWithValue }) => {
-    try {
-      const place = await searchPlaceByQuery(query);
-      return { query, place };
-    } catch (error) {
-      return rejectWithValue(error instanceof Error ? error.message : 'Search failed');
-    }
-  }
-);
 
 const placesSlice = createSlice({
   name: 'places',
