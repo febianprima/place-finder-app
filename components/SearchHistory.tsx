@@ -10,7 +10,7 @@ import {
 } from '@ant-design/icons';
 import { useSearchHistory } from '@/hooks';
 
-const { Text } = Typography;
+const { Text, Paragraph } = Typography;
 
 export const SearchHistory: React.FC = () => {
   const {
@@ -64,9 +64,16 @@ export const SearchHistory: React.FC = () => {
                 <EnvironmentOutlined className="text-xl text-blue-500 mt-1 flex-shrink-0" />
                 <div className="flex flex-col flex-1 min-w-0">
                   <Text strong className="block">{item.place.name}</Text>
-                  <Text type="secondary" className="text-xs block mt-1" ellipsis={{expanded: false}}>
-                    {item.place.formattedAddress}
+                  <Text type="secondary" className="text-xs block">
+                    {item.query}
                   </Text>
+                  <Paragraph 
+                    type="secondary" 
+                    className="text-xs !mb-0 mt-1" 
+                    ellipsis={{ rows: 3 }}
+                  >
+                    {item.place.formattedAddress}
+                  </Paragraph>
                   <Text type="secondary" className="text-[11px] block mt-1">
                     {formatTimestamp(item.timestamp)}
                   </Text>
