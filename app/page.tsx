@@ -2,9 +2,7 @@
 
 import { Layout, Typography, Row, Col, Divider, Space, Card } from 'antd';
 import { EnvironmentOutlined, GithubOutlined } from '@ant-design/icons';
-import { SearchBox } from '@/components/SearchBox';
-import { Map } from '@/components/Map';
-import { SearchHistory } from '@/components/SearchHistory';
+import { SearchBox, Map, SearchHistory } from '@/components';
 
 const { Header, Content, Footer } = Layout;
 const { Title, Text, Link } = Typography;

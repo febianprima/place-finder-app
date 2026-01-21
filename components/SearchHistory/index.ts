@@ -1,1 +1,0 @@
-export { SearchHistory } from './SearchHistory';
