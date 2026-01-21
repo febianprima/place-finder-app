@@ -11,10 +11,6 @@ export const getAutocompletePredictions = async (
     return [];
   }
 
-  // Simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 300));
-
-  // Use Google Places Autocomplete Service
   try {
     if (!window.google?.maps?.places?.AutocompleteService) {
       throw new Error('Google Places API not loaded');

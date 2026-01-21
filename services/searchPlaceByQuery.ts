@@ -6,10 +6,6 @@ import { Place } from '@/types/place';
  * Note: This uses the Google Maps JavaScript API through the browser, not direct HTTP calls
  */
 export const searchPlaceByQuery = async (query: string): Promise<Place> => {
-  // Simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
-  // Use Google Places Service for text search
   try {
     if (!window.google?.maps?.places?.PlacesService) {
       throw new Error('Google Places API not loaded');
