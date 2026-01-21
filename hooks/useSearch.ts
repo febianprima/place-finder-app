@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { searchPlace, setCurrentPlaceWithHistory } from '@/store/slices';
 import { isLoadingSelector } from '@/store/selectors';
 import { getAutocompletePredictions, getPlaceDetails } from '@/services';
-import { debounce } from '@/utils';
+import { debounce, trackSearch, trackPlaceSelection } from '@/utils';
 import { APP_CONFIG } from '@/constants';
 import type { AppDispatch } from '@/store';
 
@@ -50,6 +50,7 @@ export const useSearch = () => {
 
   const handleSelect = async (value: string, option: AutocompleteOption) => {
     setSearchValue(value);
+    trackPlaceSelection(option.place.name, 'autocomplete');
     
     // If the place has a valid location (not 0,0), use it directly
     if (option.place.location.lat !== 0 || option.place.location.lng !== 0) {
@@ -57,6 +58,7 @@ export const useSearch = () => {
         place: option.place, 
         query: value 
       }));
+      trackSearch(value, true);
     } else if (option.place.placeId) {
       // Otherwise, get place details first to get coordinates
       const placeDetails = await getPlaceDetails(option.place.placeId);
@@ -65,6 +67,7 @@ export const useSearch = () => {
           place: placeDetails, 
           query: value 
         }));
+        trackSearch(value, true);
       } else {
         // Fallback to text search if place details fail
         dispatch(searchPlace(option.place.formattedAddress || value));
@@ -77,6 +80,7 @@ export const useSearch = () => {
 
   const handlePressEnter = () => {
     if (searchValue.trim()) {
+      trackPlaceSelection(searchValue, 'enter');
       dispatch(searchPlace(searchValue));
     }
   };

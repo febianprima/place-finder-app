@@ -41,16 +41,25 @@ export const SearchBox: React.FC = () => {
         showSearch={{
           onSearch: handleSearch,
         }}
+        aria-label="Search for places"
+        role="combobox"
+        aria-expanded={formattedOptions.length > 0}
+        aria-haspopup="listbox"
       >
         <Input
           size="large"
           placeholder="eg. Maybank Tower Kuala Lumpur"
-          prefix={<SearchOutlined />}
+          prefix={<SearchOutlined aria-hidden="true" />}
           onPressEnter={handlePressEnter}
           disabled={isLoading}
           allowClear
+          aria-label="Place search input"
+          aria-describedby="search-instructions"
         />
       </AutoComplete>
+      <div id="search-instructions" className="sr-only">
+        Type to search for places. Use arrow keys to navigate suggestions. Press Enter to select.
+      </div>
     </div>
   );
 };

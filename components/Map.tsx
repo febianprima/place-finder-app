@@ -97,6 +97,7 @@ export const Map: React.FC = () => {
           mapTypeControl: true,
           fullscreenControl: true,
         }}
+        aria-label="Interactive map showing selected place"
       >
         {currentPlace && (
           <Marker

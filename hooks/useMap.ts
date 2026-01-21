@@ -3,7 +3,7 @@ import { useJsApiLoader } from '@react-google-maps/api';
 import { useSelector } from 'react-redux';
 import { currentPlaceSelector, isLoadingSelector, errorSelector } from '@/store/selectors';
 import { APP_CONFIG } from '@/constants';
-import { getGoogleMapsApiKey } from '@/utils';
+import { getGoogleMapsApiKey, trackMapInteraction } from '@/utils';
 
 export const useMap = () => {
   const currentPlace = useSelector(currentPlaceSelector);
@@ -22,10 +22,12 @@ export const useMap = () => {
   const center = currentPlace?.location ?? APP_CONFIG.DEFAULT_CENTER;
 
   const onMarkerClick = useCallback((place: Place) => {
+    trackMapInteraction('marker_click', place.name);
     setSelectedMarker(place);
   }, []);
 
   const onInfoWindowClose = useCallback(() => {
+    trackMapInteraction('info_window_close');
     setSelectedMarker(null);
   }, []);
 
