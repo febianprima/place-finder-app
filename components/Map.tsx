@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
 import { Card, Spin, Alert } from 'antd';
 import { useMap } from '@/hooks';
@@ -25,19 +25,22 @@ export const Map: React.FC = () => {
     onInfoWindowClose,
   } = useMap();
 
-  if (loadError) {
-    return (
+  // Memoize static error state component
+  const loadErrorComponent = useMemo(
+    () => (
       <Alert
         message="Map Loading Error"
         description="Failed to load Google Maps. Please check your API key."
         type="error"
         showIcon
       />
-    );
-  }
+    ),
+    []
+  );
 
-  if (!hasApiKey) {
-    return (
+  // Memoize static no API key component
+  const noApiKeyComponent = useMemo(
+    () => (
       <Card className="h-[200px] flex items-center justify-center bg-gray-100">
         <div className="text-center p-5">
           <Alert
@@ -49,14 +52,6 @@ export const Map: React.FC = () => {
                 <pre className="bg-white p-3 rounded mt-3 text-left">
                   NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_api_key_here
                 </pre>
-                {currentPlace && (
-                  <div className="mt-4">
-                    <p><strong>Selected Location:</strong></p>
-                    <p>{currentPlace.name}</p>
-                    <p>{currentPlace.formattedAddress}</p>
-                    <p>Coordinates: {currentPlace.location.lat}, {currentPlace.location.lng}</p>
-                  </div>
-                )}
               </div>
             }
             type="info"
@@ -64,15 +59,30 @@ export const Map: React.FC = () => {
           />
         </div>
       </Card>
-    );
-  }
+    ),
+    []
+  );
 
-  if (!isLoaded) {
-    return (
+  // Memoize static loading component
+  const loadingComponent = useMemo(
+    () => (
       <Card className="h-[500px] flex items-center justify-center">
         <Spin size="large" tip="Loading map..." />
       </Card>
-    );
+    ),
+    []
+  );
+
+  if (loadError) {
+    return loadErrorComponent;
+  }
+
+  if (!hasApiKey) {
+    return noApiKeyComponent;
+  }
+
+  if (!isLoaded) {
+    return loadingComponent;
   }
 
   return (
