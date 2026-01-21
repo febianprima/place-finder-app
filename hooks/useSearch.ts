@@ -49,33 +49,36 @@ export const useSearch = () => {
   };
 
   const handleSelect = async (value: string, option: AutocompleteOption) => {
-    setSearchValue(option.place.name); // Set the place name, not the ID
     trackPlaceSelection(option.place.name, 'autocomplete');
     
     // If the place has a valid location (not 0,0), use it directly
     if (option.place.location.lat !== 0 || option.place.location.lng !== 0) {
       dispatch(setCurrentPlaceWithHistory({ 
         place: option.place, 
-        query: value 
+        query: option.place.name 
       }));
-      trackSearch(value, true);
+      trackSearch(option.place.name, true);
     } else if (option.place.placeId) {
       // Otherwise, get place details first to get coordinates
       const placeDetails = await getPlaceDetails(option.place.placeId);
       if (placeDetails) {
         dispatch(setCurrentPlaceWithHistory({ 
           place: placeDetails, 
-          query: value 
+          query: option.place.name 
         }));
-        trackSearch(value, true);
+        trackSearch(option.place.name, true);
       } else {
         // Fallback to text search if place details fail
-        dispatch(searchPlace(option.place.formattedAddress || value));
+        dispatch(searchPlace(option.place.formattedAddress || option.place.name));
       }
     } else {
       // Fallback to text search if no place_id
-      dispatch(searchPlace(option.place.formattedAddress || value));
+      dispatch(searchPlace(option.place.formattedAddress || option.place.name));
     }
+    
+    // Clear the search box after selection
+    setSearchValue('');
+    setOptions([]);
   };
 
   const handlePressEnter = () => {
