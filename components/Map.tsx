@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
-import { Card, Spin, Alert } from 'antd';
+import { Spin, Alert, Skeleton } from 'antd';
 import { useMap } from '@/hooks';
 
 const containerStyle = {
@@ -38,8 +38,8 @@ export const Map: React.FC = () => {
 
   if (!hasApiKey) {
     return (
-      <Card className="h-[200px] flex items-center justify-center bg-gray-100">
-        <div className="text-center p-5">
+      <div className="h-[500px] flex items-center justify-center bg-gray-100 rounded-lg">
+        <div className="text-center p-5 max-w-lg">
           <Alert
             message="Google Maps API Key Required"
             description={
@@ -55,17 +55,15 @@ export const Map: React.FC = () => {
             showIcon
           />
         </div>
-      </Card>
+      </div>
     );
   }
 
   if (!isLoaded) {
     return (
-      <Card className="h-[500px] flex items-center justify-center">
-        <Spin size="large" tip="Loading map...">
-          <div className="h-[400px]" />
-        </Spin>
-      </Card>
+      <div className="space-y-4">
+        <Skeleton.Input active block style={{ height: '500px' }} />
+      </div>
     );
   }
 
