@@ -1,29 +1,73 @@
 import { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchPlace, setCurrentPlaceWithHistory } from '@/store/slices';
-import { isLoadingSelector } from '@/store/selectors';
+import { searchPlace, setCurrentPlaceWithHistory, setCurrentPlace } from '@/store/slices';
+import { isLoadingSelector, searchHistorySelector } from '@/store/selectors';
 import { getAutocompletePredictions, getPlaceDetails } from '@/services';
 import { debounce, trackSearch, trackPlaceSelection } from '@/utils';
-import { APP_CONFIG } from '@/constants';
+import { APP_CONFIG, FALLBACK_QUERY_RESULT_DATA } from '@/constants';
 import type { AppDispatch } from '@/store';
 
 interface AutocompleteOption {
   value: string;
   label: React.ReactNode;
   place: Place;
+  isHistory?: boolean;
+  isFallback?: boolean;
 }
 
 export const useSearch = () => {
   const dispatch = useDispatch<AppDispatch>();
   const isLoading = useSelector(isLoadingSelector);
+  const searchHistory = useSelector(searchHistorySelector);
   const [options, setOptions] = useState<AutocompleteOption[]>([]);
   const [searchValue, setSearchValue] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
+
+  // Generate empty search suggestions: history first, then fallback data to fill up to 5
+  const emptySearchSuggestions = useMemo(() => {
+    const suggestions: AutocompleteOption[] = [];
+    
+    // Add search history (prioritized)
+    const historyItems = searchHistory.slice(0, 5).map((item) => ({
+      value: `history-${item.id}`,
+      label: item.place.name,
+      place: item.place,
+      isHistory: true,
+      isFallback: false,
+    }));
+    suggestions.push(...historyItems);
+    
+    // Fill remaining slots with fallback data (up to 5 total)
+    const remainingSlots = 5 - suggestions.length;
+    if (remainingSlots > 0) {
+      // Filter out places that are already in history to avoid duplicates
+      const historyPlaceIds = new Set(searchHistory.map(item => item.place.id));
+      const fallbackItems = FALLBACK_QUERY_RESULT_DATA
+        .filter(place => !historyPlaceIds.has(place.id))
+        .slice(0, remainingSlots)
+        .map((place) => ({
+          value: `fallback-${place.id}`,
+          label: place.name,
+          place,
+          isHistory: false,
+          isFallback: true,
+        }));
+      suggestions.push(...fallbackItems);
+    }
+    
+    return suggestions;
+  }, [searchHistory]);
 
   // Debounced autocomplete search
   const debouncedSearch = useMemo(
     () => debounce(async (value: string) => {
       if (!value || value.trim().length < 2) {
-        setOptions([]);
+        // Show history + fallback when empty or too short
+        if (isFocused) {
+          setOptions(emptySearchSuggestions);
+        } else {
+          setOptions([]);
+        }
         return;
       }
 
@@ -33,6 +77,8 @@ export const useSearch = () => {
           value: place.id, // Use unique place.id as value to avoid duplicate keys
           label: place.name, // Just the name, the component will format it
           place,
+          isHistory: false,
+          isFallback: false,
         }));
         setOptions(autoCompleteOptions);
       } catch (error: unknown) {
@@ -40,7 +86,7 @@ export const useSearch = () => {
         setOptions([]);
       }
     }, APP_CONFIG.AUTOCOMPLETE_DEBOUNCE_MS),
-    []
+    [isFocused, emptySearchSuggestions]
   );
 
   const handleSearch = (value: string) => {
@@ -48,7 +94,45 @@ export const useSearch = () => {
     debouncedSearch(value);
   };
 
+  const handleFocus = () => {
+    setIsFocused(true);
+    // Show history + fallback immediately on focus if search is empty
+    if (!searchValue || searchValue.trim().length < 2) {
+      setOptions(emptySearchSuggestions);
+    }
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
   const handleSelect = async (value: string, option: AutocompleteOption) => {
+    // Handle history selection - update timestamp by re-adding to history
+    if (option.isHistory) {
+      trackPlaceSelection(option.place.name, 'history-autocomplete');
+      // Use setCurrentPlaceWithHistory to update timestamp and move to top
+      dispatch(setCurrentPlaceWithHistory({ 
+        place: option.place, 
+        query: option.place.name 
+      }));
+      setSearchValue('');
+      setOptions([]);
+      return;
+    }
+
+    if (option.isFallback) {
+      trackPlaceSelection(option.place.name, 'fallback-autocomplete');
+      dispatch(setCurrentPlaceWithHistory({ 
+        place: option.place, 
+        query: option.place.name 
+      }));
+      trackSearch(option.place.name, true);
+      setSearchValue('');
+      setOptions([]);
+      return;
+    }
+
+    // Handle regular autocomplete selection
     trackPlaceSelection(option.place.name, 'autocomplete');
     
     // If the place has a valid location (not 0,0), use it directly
@@ -95,5 +179,7 @@ export const useSearch = () => {
     handleSearch,
     handleSelect,
     handlePressEnter,
+    handleFocus,
+    handleBlur,
   };
 };

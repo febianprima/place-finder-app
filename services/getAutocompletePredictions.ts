@@ -1,7 +1,8 @@
-import { logError } from '@/utils';
+import { logError, filterFallbackQueryResults } from '@/utils';
 
 /**
  * Get autocomplete predictions using Google Places Autocomplete Service
+ * Falls back to fallback query result data if API is unavailable
  * Note: This uses the Google Maps JavaScript API through the browser, not direct HTTP calls
  */
 export const getAutocompletePredictions = async (
@@ -13,7 +14,8 @@ export const getAutocompletePredictions = async (
 
   try {
     if (!window.google?.maps?.places?.AutocompleteService) {
-      throw new Error('Google Places API not loaded');
+      console.warn('Google Places API not loaded, using fallback data');
+      return filterFallbackQueryResults(input);
     }
 
     const service = new window.google.maps.places.AutocompleteService();
@@ -32,13 +34,16 @@ export const getAutocompletePredictions = async (
             }));
             resolve(places);
           } else {
-            resolve([]);
+            // Fallback to fallback data on API error
+            console.warn('Google Places API error, using fallback data:', status);
+            resolve(filterFallbackQueryResults(input));
           }
         }
       );
     });
   } catch (error: unknown) {
     logError('getAutocompletePredictions', error);
-    return [];
+    // Return fallback data as fallback
+    return filterFallbackQueryResults(input);
   }
 };

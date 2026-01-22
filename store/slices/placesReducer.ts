@@ -16,8 +16,13 @@ const placesSlice = createSlice({
       // Add to search history
       const historyItem = createHistoryItem(action.payload.place, action.payload.query);
       
+      // Remove existing entry with same place ID to avoid duplicates
+      const filteredHistory = state.searchHistory.filter(
+        (item) => item.place.id !== action.payload.place.id
+      );
+      
       // Add to beginning and limit to configured max
-      state.searchHistory = [historyItem, ...state.searchHistory].slice(0, APP_CONFIG.SEARCH_HISTORY_LIMIT);
+      state.searchHistory = [historyItem, ...filteredHistory].slice(0, APP_CONFIG.SEARCH_HISTORY_LIMIT);
     },
     clearCurrentPlace: (state) => {
       state.currentPlace = null;
@@ -46,9 +51,14 @@ const placesSlice = createSlice({
       
       // Add to search history
       const historyItem = createHistoryItem(action.payload.place, action.payload.query);
+      
+      // Remove existing entry with same place ID to avoid duplicates
+      const filteredHistory = state.searchHistory.filter(
+        (item) => item.place.id !== action.payload.place.id
+      );
         
       // Add to beginning and limit to configured max
-      state.searchHistory = [historyItem, ...state.searchHistory].slice(0, APP_CONFIG.SEARCH_HISTORY_LIMIT);
+      state.searchHistory = [historyItem, ...filteredHistory].slice(0, APP_CONFIG.SEARCH_HISTORY_LIMIT);
     })
       .addCase(searchPlace.rejected, (state, action) => {
         state.isLoading = false;

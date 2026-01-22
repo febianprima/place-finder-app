@@ -28,9 +28,12 @@ export const trackSearch = (query: string, resultFound: boolean): void => {
 /**
  * Tracks a place selection from autocomplete
  * @param placeName - The name of the selected place
- * @param source - Where the selection came from ('autocomplete' | 'history' | 'enter')
+ * @param source - Where the selection came from
  */
-export const trackPlaceSelection = (placeName: string, source: 'autocomplete' | 'history' | 'enter'): void => {
+export const trackPlaceSelection = (
+  placeName: string, 
+  source: 'autocomplete' | 'history' | 'history-autocomplete' | 'fallback-autocomplete' | 'enter'
+): void => {
   const event: AnalyticsEvent = {
     category: 'Place Selection',
     action: `Selected from ${source}`,
