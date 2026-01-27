@@ -27,6 +27,5 @@ export const APP_CONFIG = {
   RETRY_BACKOFF_MULTIPLIER: 2,
   
   // Google Maps API
-  GOOGLE_MAPS_LIBRARIES: ['places'] as const,
   GOOGLE_MAPS_FIELDS: ['place_id', 'name', 'formatted_address', 'geometry', 'types'] as const,
 } as const;

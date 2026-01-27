@@ -10,7 +10,7 @@ export const TECH_STACK_CONFIG: readonly TechStackCard[] = [
   },
   {
     title: 'State Management',
-    technologies: ['Redux Toolkit', 'Redux Thunk'],
+    technologies: ['Redux Toolkit', 'Redux Thunk', 'Redux Persist'],
   },
   {
     title: 'UI Library',

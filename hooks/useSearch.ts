@@ -1,13 +1,13 @@
-import { useState, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { searchPlace, setCurrentPlaceWithHistory, setCurrentPlace } from '@/store/slices';
-import { isLoadingSelector, searchHistorySelector } from '@/store/selectors';
-import { getAutocompletePredictions, getPlaceDetails } from '@/services';
-import { debounce, trackSearch, trackPlaceSelection } from '@/utils';
 import { APP_CONFIG, FALLBACK_QUERY_RESULT_DATA } from '@/constants';
+import { getAutocompletePredictions, getPlaceDetails } from '@/services';
 import type { AppDispatch } from '@/store';
+import { isLoadingSelector, searchHistorySelector } from '@/store/selectors';
+import { searchPlace, setCurrentPlaceWithHistory } from '@/store/slices';
+import { debounce, trackPlaceSelection, trackSearch } from '@/utils';
+import { useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-interface AutocompleteOption {
+export interface AutocompleteOption {
   value: string;
   label: React.ReactNode;
   place: Place;

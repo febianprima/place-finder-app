@@ -16,7 +16,7 @@ export const useMap = () => {
 
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: apiKey,
-    libraries: APP_CONFIG.GOOGLE_MAPS_LIBRARIES,
+    libraries: ['places'],
   });
 
   const center = currentPlace?.location ?? APP_CONFIG.DEFAULT_CENTER;

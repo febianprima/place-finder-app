@@ -2,7 +2,7 @@
  * Debounce function to limit the rate of function execution
  * This is a Higher Order Function (HOF) that demonstrates functional programming
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: never[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {

@@ -11,7 +11,7 @@ import { logError } from './errorHandling';
  */
 export async function withRetry<T>(
   fn: () => Promise<T>,
-  maxRetries = APP_CONFIG.MAX_RETRY_ATTEMPTS,
+  maxRetries: number = APP_CONFIG.MAX_RETRY_ATTEMPTS,
   context = 'withRetry'
 ): Promise<T> {
   let lastError: unknown;

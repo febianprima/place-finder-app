@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { AutoComplete, Input } from 'antd';
 import { SearchOutlined, EnvironmentOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { useSearch } from '@/hooks';
+import { type AutocompleteOption } from '@/hooks/useSearch';
 
 export const SearchBox: React.FC = () => {
   const [inputElement, setInputElement] = useState<HTMLInputElement | null>(null);
@@ -19,7 +20,7 @@ export const SearchBox: React.FC = () => {
   } = useSearch();
 
   // Wrap handleSelect to blur input after selection
-  const handleSelectWithBlur = async (value: string, option: any) => {
+  const handleSelectWithBlur = async (value: string, option: AutocompleteOption) => {
     await handleSelect(value, option);
     // Blur the input after selection
     inputElement?.blur();
